@@ -19,25 +19,16 @@ ENV["BUNDLE_GEMFILE"] = File.expand_path("../../Gemfile", __FILE__)
 
 require "rubygems"
 require "bundler/setup"
-require "perican/metadata"
-require "perican/resource"
+require "perican"
 
 Encoding.default_external = "UTF-8"
 
-file = File.open(File.expand_path("~/.config/perican/auth.txt"))
-gmail_user = file.gets.chomp
-gmail_pass = file.gets.chomp
-evernote_consumer_key = file.gets.chomp
-evernote_consumer_secret = file.gets.chomp
-evernote_access_token = file.gets.chomp
-file.close
+config = Perican::Config.new("~/.config/perican/config.yml")
+builder = Perican::Builder.new(config)
 
-m = Perican::Resource::Mail.collection(gmail_user, gmail_pass).map(&:metadata)
-e = Perican::Resource::Evernote.collection(evernote_consumer_key,
-                                           evernote_consumer_secret,
-                                           evernote_access_token).map(&:metadata)
+# :mail, :evernote, :slack
+collection = builder.resource_collection(ARGV[0].to_sym)
 
-resources = (m + e) # .sort {|a,b| a.date <=> b.date}
-resources.each do |r|
+collection.each do |r|
   puts "#{r.date} #{r.summary}"
 end
