@@ -26,6 +26,10 @@ module Perican
                                                   conf["USERNAME"],
                                                   conf["CHANNEL"],
                                                   conf["COUNT"])
+      when :toggl
+        conf = @config["TOGGL"]
+        resource = Perican::Resource::Toggl
+        retriever = Perican::Retriever::Toggl.new(conf["TOKEN"])
       end
 
       collection = Perican::ResourceCollection.new
