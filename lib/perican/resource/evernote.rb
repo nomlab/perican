@@ -1,34 +1,73 @@
-# Load libraries required by the Evernote OAuth
 require 'oauth'
 require 'oauth/consumer'
-
-# Load Thrift & Evernote Ruby libraries
 require "evernote_oauth"
 
-# Client credentials
-OAUTH_CONSUMER_KEY = "XXXXXXXXX"
-OAUTH_CONSUMER_SECRET = "XXXXXXXXX"
+module Perican
+  module Resource
+    class Evernote
+      SANDBOX = true
 
-# Connect to Sandbox server?
-SANDBOX = true
+      def self.collection(oauth_consumer_key,
+                          oauth_consumer_secret,
+                          access_token)
+        client = ::EvernoteOAuth::Client.new(token:access_token,
+                                             consumer_key: oauth_consumer_key,
+                                             consumer_secret: oauth_consumer_secret,
+                                             sandbox: SANDBOX)
+        note_store = client.note_store
 
-ACCESS_TOKEN = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        filter = ::Evernote::EDAM::NoteStore::NoteFilter.new
+        result_spec = ::Evernote::EDAM::NoteStore::NotesMetadataResultSpec.new
+        metadatas = note_store.findNotesMetadata(access_token,
+                                                 filter,
+                                                 0,
+                                                 10,
+                                                 result_spec)
+        cols = []
+        metadatas.notes.each do |notemetadata|
+          note = note_store.getNote(access_token,
+                                    notemetadata.guid, true, false, false, false)
+          cols << self.new(note)
+        end
+        return cols
+      end
 
-client = EvernoteOAuth::Client.new(token:ACCESS_TOKEN, consumer_key:OAUTH_CONSUMER_KEY, consumer_secret:OAUTH_CONSUMER_SECRET, sandbox: SANDBOX)
+      def initialize(note)
+        @note = note
+      end
 
-user_store = client.user_store
-note_store = client.note_store
+      def uid
+        @note.guid
+      end
 
-filter = Evernote::EDAM::NoteStore::NoteFilter.new
-result_spec = Evernote::EDAM::NoteStore::NotesMetadataResultSpec.new
-metadatas = note_store.findNotesMetadata(ACCESS_TOKEN, filter, 0, 10, result_spec)
+      def date
+        @note.updated
+      end
 
-metadatas.notes.each do |notemetadata|
-  note = note_store.getNote(ACCESS_TOKEN, notemetadata.guid, true, false, false, false)
-  puts note.guid
-  puts note.title
-  puts note.content
-  puts note.updated
-end
+      def summary
+        @note.title
+      end
 
+      def description
+        @note.content
+      end
 
+      def originator
+        nil
+      end
+
+      def recipients
+        []
+      end
+
+      def metadata
+        opts = {
+          :description => description,
+          :originator  => originator,
+          :recipients  => recipients
+        }
+        Perican::Metadata.new(self, uid, date, summary, opts)
+      end
+    end # class Evernote
+  end # module Resource
+end # module Perican

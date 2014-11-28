@@ -1,5 +1,9 @@
 require "perican/version"
 
 module Perican
-  # Your code goes here...
+  dir = File.dirname(__FILE__) + "/perican"
+
+  autoload :Resource,             "#{dir}/resource.rb"
+  autoload :Metadata,             "#{dir}/metadata.rb"
+  autoload :Version,              "#{dir}/version.rb"
 end

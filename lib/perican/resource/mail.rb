@@ -1,27 +1,61 @@
-#!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
-
-ENV["BUNDLE_GEMFILE"] = File.expand_path("../../../../Gemfile", __FILE__)
-
-require 'rubygems'
-require 'bundler/setup'
 require 'mail'
 require 'net/imap'
-require 'yaml'
 
-yml_data = YAML.load_file('./setting.yml')
-imap = Net::IMAP.new('imap.gmail.com', 993, true)
-imap.login(yml_data["address"], yml_data["password"])
+module Perican
+  module Resource
+    class Mail
+      IMAP_SERVER = 'imap.gmail.com'
 
-imap.select('INBOX')
-ids = imap.search(["ALL"])
-imap.fetch(ids, "RFC822").each do |mail|
-  m = Mail.new(mail.attr["RFC822"])
+      def self.collection(username, password, imap_server = IMAP_SERVER)
+        imap = Net::IMAP.new(imap_server, 993, true)
+        imap.login(username, password)
+        imap.select('INBOX')
 
-  puts "Date: " + m.date.to_s
-  puts "To: " + m.to.to_s
-  puts "From: " + m.from.to_s
-  puts "Subject: " + m.subject.to_s
-  puts "\n"
+        ids = imap.search(["ALL"])
+        cols = []
 
-end
+        imap.fetch(ids, "RFC822").each do |mail|
+          cols << self.new(::Mail.new(mail.attr["RFC822"]))
+        end
+        return cols
+      end
+
+      def initialize(mail)
+        @mail = mail
+      end
+
+      def uid
+        @mail.message_id
+      end
+
+      def date
+        @mail.date
+      end
+
+      def summary
+        @mail.subject
+      end
+
+      def description
+        @mail.body
+      end
+
+      def originator
+        @mail.from
+      end
+
+      def recipients
+        (@mail.to || []) + (@mail.cc || [])
+      end
+
+      def metadata
+        opts = {
+          :description => description,
+          :originator  => originator,
+          :recipients  => recipients
+        }
+        Perican::Metadata.new(self, uid, date, summary, opts)
+      end
+    end # class Mail
+  end # module Perican
+end # module Resource
