@@ -22,10 +22,10 @@ module Perican
         conf = @config["SLACK"]
         resource = Perican::Resource::Slack
         retriever = Perican::Retriever::Slack.new(conf["TEAM"],
-                                                 conf["TOKEN"],
-                                                 conf["USERNAME"],
-                                                 conf["CHANNEL"],
-                                                 conf["COUNT"])
+                                                  conf["TOKEN"],
+                                                  conf["USERNAME"],
+                                                  conf["CHANNEL"],
+                                                  conf["COUNT"])
       end
 
       collection = Perican::ResourceCollection.new
