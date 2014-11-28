@@ -52,3 +52,5 @@ build/
 #
 # Added from /Users/nom/sys/bin/gem-new
 #
+
+vendor/bundle
