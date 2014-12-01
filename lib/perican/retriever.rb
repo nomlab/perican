@@ -5,5 +5,6 @@ module Perican
     autoload :Mail,             "#{dir}/mail.rb"
     autoload :Evernote,         "#{dir}/evernote.rb"
     autoload :Slack,            "#{dir}/slack.rb"
+    autoload :Toggl,            "#{dir}/toggl.rb"
   end
 end

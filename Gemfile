@@ -6,3 +6,4 @@ gemspec
 gem "mail"
 gem "oauth"
 gem "evernote_oauth"
+gem 'toggl_api'
