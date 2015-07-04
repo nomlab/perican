@@ -1,0 +1,94 @@
+* perican
+
+  perican is a CLI tool to retrieve data from some applications
+
+** Table of Contents
+ - [[#perican][perican]]
+     - [[#install-for-developers][Install for developers]]
+     - [[#setup-configyml][Setup config.yml]]
+
+** Install for developers
+   Current code is a very alpha and kind of proof-of-concept demonstration.
+   We recommend you not to install via usual gem-style procedure.
+
+   1) Install rbenv + ruby-build
+      (see https://github.com/sstephenson/rbenv#basic-github-checkout for details)
+      #+BEGIN_SRC shell-script
+        $ git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+        $ git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+        # Edit your shell dot files to add some path and environment variables.
+      #+END_SRC
+
+   2) Install Latest Ruby and bundler
+      #+BEGIN_SRC shell-script
+        # Install ruby 2.2.1
+        $ rbenv install 2.2.1
+
+        # Installation check
+        $ rbenv global 2.2.1
+        $ ruby -v # -> You will see: ruby 2.2.1...
+
+        # Install bundler for your new Ruby
+        $ gem install bundler
+        $ rbenv rehash
+
+        # Get back to your sytem default Ruby if you want
+        $ rbenv global system # say, /usr/bin/ruby
+        $ ruby -v
+      #+END_SRC
+
+   3) Clone perican from github
+      #+BEGIN_SRC shell-script
+        $ git clone git@github.com:nomlab/perican.git ~/src/perican
+      #+END_SRC
+
+   4) Set default ruby version in perican project
+      #+BEGIN_SRC shell-script
+        $ cd ~/src/octaccord
+        $ echo '2.2.1' > .ruby-version
+        $ ruby -v # -> You will see: ruby 2.2.1...
+      #+END_SRC
+
+   5) Install requied gem packages
+      #+BEGIN_SRC shell-script
+        $ cd ~/src/octaccord
+        $ bundle install --path vendor/bundle
+      #+END_SRC
+
+   6) Setup config.yml
+      #+BEGIN_SRC shell-script
+        $ cd ~/src/octaccord
+        $ mkdir -p ~/.config/perican
+        $ cp examples/config.yml ~/.config/perican/config.yml
+        $ vim ~/.config/perican/config.yml # Detail is explained in next section
+      #+END_SRC
+
+** Setup config.yml
+*** Gmail
+    #+BEGIN_SRC yaml
+    MAIL:
+      LOGIN: "xxxxxxxxxxxxxxx@gmail.com" # Your gmail address
+      PASSWD: "XXXXXXXXXXXXXXXXX"        # Your google passward
+      SERVER: "imap.gmail.com"           # Do not touch
+    #+END_SRC
+*** Evernote
+    #+BEGIN_SRC yaml
+    EVERNOTE:
+      CONSUMER_KEY: "XXXXXXXXXXXX"
+      CONSUMER_SECRET: "XXXXXXXXXXXXXXXXXXXXX"
+      ACCESS_TOKEN: "S=XX:U=XXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    #+END_SRC
+*** Slack
+    #+BEGIN_SRC yaml
+    SLACK:
+      TEAM: "XXXXXXX"                                       # Your slack team name
+      TOKEN: "xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-XXXXXX" # Get token from https://api.slack.com/web
+      CHANNEL: "#general"                                   # perican gets message from this channel
+      USERNAME: "XXXXXXXXXXXXXXXXXXXXXXX"                   # Your user name
+      COUNT: 20                                             # The number of messages to retrieve at a time
+    #+END_SRC
+*** Toggl
+    #+BEGIN_SRC yaml
+    TOGGL:
+      TOKEN: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # Get your API token from https://www.toggl.com/app/profile
+    #+END_SRC
