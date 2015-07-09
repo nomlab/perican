@@ -44,20 +44,20 @@
 
    4) Set default ruby version in perican project
       #+BEGIN_SRC shell-script
-        $ cd ~/src/octaccord
+        $ cd ~/src/perican
         $ echo '2.2.1' > .ruby-version
         $ ruby -v # -> You will see: ruby 2.2.1...
       #+END_SRC
 
    5) Install requied gem packages
       #+BEGIN_SRC shell-script
-        $ cd ~/src/octaccord
+        $ cd ~/src/perican
         $ bundle install --path vendor/bundle
       #+END_SRC
 
    6) Setup config.yml
       #+BEGIN_SRC shell-script
-        $ cd ~/src/octaccord
+        $ cd ~/src/perican
         $ mkdir -p ~/.config/perican
         $ cp examples/config.yml ~/.config/perican/config.yml
         $ vim ~/.config/perican/config.yml # Detail is explained in next section
