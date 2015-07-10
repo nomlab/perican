@@ -10,7 +10,7 @@ module Perican
       end
 
       def uid
-        @message.guid
+        #@message.guid
       end
 
       def date
