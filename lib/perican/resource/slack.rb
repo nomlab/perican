@@ -5,6 +5,8 @@ require 'json'
 module Perican
   module Resource
     class Slack < Base
+      TYPE = "slack"
+
       def initialize(message)
         @message = message
       end

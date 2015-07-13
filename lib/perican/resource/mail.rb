@@ -4,6 +4,7 @@ require 'net/imap'
 module Perican
   module Resource
     class Mail < Base
+    TYPE = "mail"
 
       def initialize(mail)
         @mail = mail
