@@ -1,3 +1,5 @@
+require 'json'
+
 module Perican
   module Resource
     class Base
@@ -8,6 +10,18 @@ module Perican
           :recipients  => recipients
         }
         Perican::Metadata.new(self, uid, date, summary, opts)
+      end
+
+      def to_json
+        JSON.generate({:content_type => self.class::TYPE,
+                       :resource => {:uid => uid,
+                                     :date => date,
+                                     :summary => summary,
+                                     :description => description,
+                                     :originator => originator,
+                                     :recipients => recipients
+                                    }
+                      })
       end
     end
 
