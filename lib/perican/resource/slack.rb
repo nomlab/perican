@@ -5,12 +5,14 @@ require 'json'
 module Perican
   module Resource
     class Slack < Base
+      TYPE = "slack"
+
       def initialize(message)
         @message = message
       end
 
       def uid
-        @message.guid
+        #@message.guid
       end
 
       def date
