@@ -30,6 +30,11 @@ module Perican
         conf = @config["TOGGL"]
         resource = Perican::Resource::Toggl
         retriever = Perican::Retriever::Toggl.new(conf["TOKEN"])
+
+      when :document
+        conf = @config["DOCUMENT"]
+        resource = Perican::Resource::Document
+        retriever = Perican::Retriever::Document.new(conf["PATH"])
       end
 
       collection = Perican::ResourceCollection.new
