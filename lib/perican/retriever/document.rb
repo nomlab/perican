@@ -36,7 +36,7 @@ module Perican
         documents = `#{command}`
         documents.split("\n").each do |doc|
           d = doc.split(",")
-          collection << {"uid" => d[0], "date" => d[1], "summary" => d[2]}
+          collection << {"uid" => d[0], "date" => d[1].lstrip, "summary" => "file://#{d[2].lstrip}"}
         end
         return collection
       end
