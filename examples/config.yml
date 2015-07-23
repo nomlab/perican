@@ -19,5 +19,9 @@ SLACK:
 TOGGL:
   TOKEN: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
+# if you wants to ignore the hidden directory(.) when search, IGNORE_HIDDEN:true
+# default false
 DOCUMENT:
   PATH: "XXXXXXXXXXXXXXXXXXX"
+  IGNORE: "XXXXXX,XXXXXX"
+  IGNORE_HIDDEN: XXXX
