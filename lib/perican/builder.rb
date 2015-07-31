@@ -34,7 +34,9 @@ module Perican
       when :document
         conf = @config["DOCUMENT"]
         resource = Perican::Resource::Document
-        retriever = Perican::Retriever::Document.new(conf["PATH"])
+        retriever = Perican::Retriever::Document.new(conf["PATH"],
+                                                     conf["IGNORE"],
+                                                     conf["IGNORE_HIDDEN"])
       end
 
       collection = Perican::ResourceCollection.new
