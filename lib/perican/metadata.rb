@@ -8,9 +8,9 @@ module Perican
 
     attr_reader :uid, :date, :summary, :options
 
-    def initialize(conent, uid, date, summary, **options)
+    def initialize(content, uid, date, summary, **options)
       @options = {}
-      @conent, @uid, @date, @summary = conent, uid, date, summary
+      @content, @uid, @date, @summary = content, uid, date, summary
     end
   end
 
