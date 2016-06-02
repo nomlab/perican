@@ -10,4 +10,5 @@ module Perican
   autoload :ResourceCollection,   "#{dir}/resource_collection.rb"
   autoload :Retriever,            "#{dir}/retriever.rb"
   autoload :Version,              "#{dir}/version.rb"
+  autoload :Sender,               "#{dir}/sender.rb"
 end
