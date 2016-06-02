@@ -5,8 +5,6 @@ require "evernote_oauth"
 module Perican
   module Resource
     class Evernote < Base
-      TYPE = "evernote"
-
       def initialize(note)
         @note = note
       end
@@ -33,6 +31,10 @@ module Perican
 
       def recipients
         []
+      end
+
+      def source
+        @note
       end
 
     end # class Evernote

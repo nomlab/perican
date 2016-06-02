@@ -4,8 +4,6 @@ require 'net/imap'
 module Perican
   module Resource
     class Mail < Base
-    TYPE = "mail"
-
       def initialize(mail)
         @mail = mail
       end
@@ -32,6 +30,10 @@ module Perican
 
       def recipients
         (@mail.to || []) + (@mail.cc || [])
+      end
+
+      def source
+        @mail
       end
 
     end # class Mail

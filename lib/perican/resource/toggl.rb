@@ -3,8 +3,6 @@ require 'toggl_api'
 module Perican
   module Resource
     class Toggl < Base
-      TYPE = "toggl"
-
       def initialize(time_entry)
         @time_entry = time_entry
       end
@@ -32,6 +30,11 @@ module Perican
       def recipients
         nil
       end
+
+      def source
+        @time_entry
+      end
+
     end # class Toggl
   end # module Resource
 end # module Perican
