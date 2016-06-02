@@ -6,15 +6,15 @@ module Perican
       end
 
       def uid
-        @document["uid"]
+        @document[:inode]
       end
 
       def date
-        @document["date"]
+        @document[:atime]
       end
 
       def summary
-        @document["summary"]
+        @document[:path]
       end
 
       def description
@@ -27,6 +27,10 @@ module Perican
 
       def recipients
         []
+      end
+
+      def source
+        @document
       end
     end # class Document
   end # module Resource

@@ -7,38 +7,29 @@ module Perican
       def initialize(path, ignore, ignore_hidden)
         @params = {
           'path'   => path,
-          'ignore' => ignore,
-          'ignore_hidden' => ignore_hidden
+          'ignore' => ignore
         }
       end
 
       def fetch
-        collection = []
-
         path = File.expand_path(@params["path"])
 
         if @params["ignore"] == nil
-          command = "find #{path} -atime -1 -exec stat -f '%i, %Sa, %N' -t '%F %T' {} \+"
+          documents = `find #{path} -atime -1 -type f -print0 | xargs -n 100 -0 stat -f '{device_number: "%d", inode: "%i", permissions: "%p", hardlinks: "%l", user: "%u", group: "%g", special_file_device_number: "%r", size: "%z", atime: "%Sa", mtime: "%Sm", ctime: "%Sc", type: "%HT", optimal_block_size: "%k", blocks: "%b", file_flags: "%f", path: "%N"}' -t '%F %T'`
         else
-          ignore_str = "\\("
+          ignore_str = "\\( "
           ignore = @params["ignore"].split(",")
-          ignore.each do |i|
+          ignore.map!{|i|
             i = i.lstrip
             i = i.rstrip
-            ignore_str << " -name #{i}"
-          end
+            i = "-name '#{i}'"
+          }
+          ignore_str << ignore.join(" -o ")
           ignore_str << " \\)"
-          command = "find #{path} #{ignore_str} -prune -o -exec stat -f '%i, %Sa, %N' -t '%F %T' {} \+"
+          documents = `find #{path} #{ignore_str} -prune -o -atime -1 -type f -print0 | xargs -n 100 -0 stat -f '{device_number: "%d", inode: "%i", permissions: "%p", hardlinks: "%l", user: "%u", group: "%g", special_file_device_number: "%r", size: "%z", atime: "%Sa", mtime: "%Sm", ctime: "%Sc", type: "%HT", optimal_block_size: "%k", blocks: "%b", file_flags: "%f", path: "%N"}' -t '%F %T'`
         end
 
-        command << " | grep -v '\\/\\.'" if @params["ignore_hidden"] == true
-
-        documents = `#{command}`
-        documents.split("\n").each do |doc|
-          d = doc.split(",")
-          collection << {"uid" => d[0], "date" => d[1].lstrip, "summary" => "file://#{d[2].lstrip}"}
-        end
-        return collection
+        collection = documents.split("\n").map{|doc| doc = eval(doc)}
       end
     end
   end
