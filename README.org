@@ -92,3 +92,14 @@
     TOGGL:
       TOKEN: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # Get your API token from https://www.toggl.com/app/profile
     #+END_SRC
+*** Event
+    #+BEGIN_SRC yaml
+    EVENT:
+      CALENDAR_ID:                        # Get calendar id from calendar settings
+       - "XXXXXXXXXXXXXXXXXXXX"
+       - "XXXXXXXXXXXXXXXXXXXX"
+       - "XXXXXXXXXXXXXXXXXXXX"
+      CLIENT_ID: "XXXXXXXXXXXXXXXXXXXXXX" # Get client id from https://console.developers.google.com
+      CLIENT_SECRET: "XXXXXXXXXXXXXXXXXX" # Get client secret from https://console.developers.google.com
+      USER_ID: "XXXXXXXXXXXXXX@gmail.com" # Your google account id
+    #+END_SRC
