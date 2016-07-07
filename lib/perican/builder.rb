@@ -37,6 +37,15 @@ module Perican
         retriever = Perican::Retriever::Document.new(conf["PATH"],
                                                      conf["IGNORE"],
                                                      conf["IGNORE_HIDDEN"])
+
+      when :event
+        conf = @config["EVENT"]
+        resource = Perican::Resource::Event
+        retriever = Perican::Retriever::Event.new(conf["USER_ID"],
+                                                  conf["CALENDAR_ID"],
+                                                  conf["CLIENT_ID"],
+                                                  conf["CLIENT_SECRET"])
+        
       end
 
       collection = Perican::ResourceCollection.new
