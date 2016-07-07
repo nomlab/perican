@@ -45,7 +45,7 @@ module Perican
                                                   conf["CALENDAR_ID"],
                                                   conf["CLIENT_ID"],
                                                   conf["CLIENT_SECRET"])
-        
+
       end
 
       collection = Perican::ResourceCollection.new

@@ -46,7 +46,7 @@ module Perican
           return "2000-01-01T00:00:00"
         end
       end
-      
+
       def update_updateMin(str, calendar_id)
         begin
           dir = File.expand_path("~/.config/perican/update_min", __FILE__)
@@ -57,8 +57,8 @@ module Perican
           return false
         end
       end
-      
-      def get_events(time, calendar_id) 
+
+      def get_events(time, calendar_id)
         params = {:order_by => "updated", :show_deleted => "false", :updated_min => time.strftime("%Y-%m-%dT%H:%M:%SZ")}
         return google_calendar_api(params, calendar_id)
       end
@@ -70,7 +70,7 @@ module Perican
           file: File.expand_path("#{dir_path}/google_access_tokens.yml", __FILE__))
         scope = 'https://www.googleapis.com/auth/calendar'
         authorizer = Google::Auth::UserAuthorizer.new(client_id, scope, token_store)
-        
+
         credentials = authorizer.get_credentials(@user_id)
         if credentials.nil?
           url = authorizer.get_authorization_url(
@@ -84,7 +84,7 @@ module Perican
         end
         return credentials
       end
-      
+
       def google_calendar_api(params, calendar_id)
         service = Google::Apis::CalendarV3::CalendarService.new
         service.client_options.application_name = @application_name
@@ -95,7 +95,7 @@ module Perican
 
         return response
       end
-      
+
     end # class Event
   end # module Retriever
 end # module Perican
