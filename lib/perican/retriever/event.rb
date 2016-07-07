@@ -4,6 +4,7 @@ require 'google/api_client/client_secrets'
 require 'google/apis/calendar_v3'
 require 'json'
 require 'date'
+require 'fileutils'
 
 module Perican
   module Retriever
@@ -11,7 +12,7 @@ module Perican
 
       def initialize(user_id, calendar_id, client_id, client_secret)
         @user_id = user_id
-        @calendar_id = calendar_id
+        @calendar_ids = calendar_id
         @client_id = client_id
         @client_secret = client_secret
         @application_name = "perican"
@@ -20,44 +21,46 @@ module Perican
       end
 
       def fetch
-        collection = []  
-        border = DateTime.parse(set_updateMin)
-        response = get_events(border)
-        
-        last = border
-        
-        response.items.each do |item|
-          next if item.status == "cancelled"
-          created = item.created
-          collection << item if created > border
-          last = created if created > last
+        collection = []
+        @calendar_ids.each do |calendar_id|
+          border = DateTime.parse(set_updateMin(calendar_id))
+          response = get_events(border, calendar_id)
+          last = border
+          response.items.each do |item|
+            next if item.status == "cancelled"
+            created = item.created
+            collection << item if created > border
+            last = created if created > last
+          end
+          update_updateMin(last.to_s, calendar_id)
         end
-        update_updateMin(last.to_s)
         return collection
       end
 
       private
 
-      def set_updateMin
+      def set_updateMin(calendar_id)
         begin
-          return File.read(File.expand_path("~/.config/perican/update_min.txt", __FILE__))
+          return File.read(File.expand_path("~/.config/perican/update_min/#{calendar_id}.txt", __FILE__))
         rescue
           return "2000-01-01T00:00:00"
         end
       end
       
-      def update_updateMin(str)
+      def update_updateMin(str, calendar_id)
         begin
-          File.write(File.expand_path("~/.config/perican/update_min.txt", __FILE__), str)
+          dir = File.expand_path("~/.config/perican/update_min", __FILE__)
+          FileUtils.mkdir_p(dir) unless File.exist?(dir)
+          File.write(dir + "/#{calendar_id}.txt", str)
           return true
         rescue
           return false
         end
       end
       
-      def get_events(time) 
+      def get_events(time, calendar_id) 
         params = {:order_by => "updated", :show_deleted => "false", :updated_min => time.strftime("%Y-%m-%dT%H:%M:%SZ")}
-        return google_calendar_api(params)
+        return google_calendar_api(params, calendar_id)
       end
 
       def authorize
@@ -82,13 +85,13 @@ module Perican
         return credentials
       end
       
-      def google_calendar_api(params)
+      def google_calendar_api(params, calendar_id)
         service = Google::Apis::CalendarV3::CalendarService.new
         service.client_options.application_name = @application_name
         service.authorization = authorize()
         service.authorization.refresh!
 
-        response = service.list_events(@calendar_id, order_by: params[:order_by], show_deleted: params[:show_deleted], updated_min: params[:updated_min])
+        response = service.list_events(calendar_id, order_by: params[:order_by], show_deleted: params[:show_deleted], updated_min: params[:updated_min])
 
         return response
       end
