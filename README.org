@@ -64,6 +64,14 @@
       #+END_SRC
 
 ** Setup config.yml
+*** OAUTH
+    #+BEGIN_SRC yaml
+    OAUTH:
+      GOOGLE:
+        CLIENT_ID: "XXXXXXXXXXXXXXXXXXXXXX" # Get client id from https://console.developers.google.com
+        CLIENT_SECRET: "XXXXXXXXXXXXXXXXXX" # Get client secret from https://console.developers.google.com
+    #+END_SRC
+
 *** Gmail
     #+BEGIN_SRC yaml
     MAIL:
@@ -99,7 +107,5 @@
        - "XXXXXXXXXXXXXXXXXXXX"
        - "XXXXXXXXXXXXXXXXXXXX"
        - "XXXXXXXXXXXXXXXXXXXX"
-      CLIENT_ID: "XXXXXXXXXXXXXXXXXXXXXX" # Get client id from https://console.developers.google.com
-      CLIENT_SECRET: "XXXXXXXXXXXXXXXXXX" # Get client secret from https://console.developers.google.com
       USER_ID: "XXXXXXXXXXXXXX@gmail.com" # Your google account id
     #+END_SRC

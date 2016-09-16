@@ -39,12 +39,13 @@ module Perican
                                                      conf["IGNORE_HIDDEN"])
 
       when :event
+        oauth = @config["OAUTH"]["GOOGLE"]
         conf = @config["EVENT"]
         resource = Perican::Resource::Event
         retriever = Perican::Retriever::Event.new(conf["USER_ID"],
                                                   conf["CALENDAR_ID"],
-                                                  conf["CLIENT_ID"],
-                                                  conf["CLIENT_SECRET"])
+                                                  oauth["CLIENT_ID"],
+                                                  oauth["CLIENT_SECRET"])
 
       end
 
