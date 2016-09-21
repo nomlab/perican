@@ -37,6 +37,16 @@ module Perican
         retriever = Perican::Retriever::Document.new(conf["PATH"],
                                                      conf["IGNORE"],
                                                      conf["IGNORE_HIDDEN"])
+
+      when :event
+        oauth = @config["OAUTH"]["GOOGLE"]
+        conf = @config["EVENT"]
+        resource = Perican::Resource::Event
+        retriever = Perican::Retriever::Event.new(conf["USER_ID"],
+                                                  conf["CALENDAR_ID"],
+                                                  oauth["CLIENT_ID"],
+                                                  oauth["CLIENT_SECRET"])
+
       end
 
       collection = Perican::ResourceCollection.new
