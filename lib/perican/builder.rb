@@ -56,8 +56,11 @@ module Perican
       return collection
     end
 
-    def send_resorce(collection)
-      sender = Perican::Sender::Camome.new
+    def send_resorce(collection, dest)
+      case dest
+      when :camome
+        sender = Perican::Sender::Camome.new
+      end
       collection.each do |r|
         sender.post_resource(r)
       end
