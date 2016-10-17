@@ -64,7 +64,8 @@
       #+END_SRC
 
 ** Setup config.yml
-*** OAUTH
+*** GENERAL
+**** OAUTH
     #+BEGIN_SRC yaml
     OAUTH:
       GOOGLE:
@@ -72,21 +73,22 @@
         CLIENT_SECRET: "XXXXXXXXXXXXXXXXXX" # Get client secret from https://console.developers.google.com
     #+END_SRC
 
-*** Gmail
+*** RESOURCES
+**** Gmail
     #+BEGIN_SRC yaml
     MAIL:
       LOGIN: "xxxxxxxxxxxxxxx@gmail.com" # Your gmail address
       PASSWD: "XXXXXXXXXXXXXXXXX"        # Your google passward
       SERVER: "imap.gmail.com"           # Do not touch
     #+END_SRC
-*** Evernote
+**** Evernote
     #+BEGIN_SRC yaml
     EVERNOTE:
       CONSUMER_KEY: "XXXXXXXXXXXX"
       CONSUMER_SECRET: "XXXXXXXXXXXXXXXXXXXXX"
       ACCESS_TOKEN: "S=XX:U=XXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     #+END_SRC
-*** Slack
+**** Slack
     #+BEGIN_SRC yaml
     SLACK:
       TEAM: "XXXXXXX"                                       # Your slack team name
@@ -95,12 +97,12 @@
       USERNAME: "XXXXXXXXXXXXXXXXXXXXXXX"                   # Your user name
       COUNT: 20                                             # The number of messages to retrieve at a time
     #+END_SRC
-*** Toggl
+**** Toggl
     #+BEGIN_SRC yaml
     TOGGL:
       TOKEN: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # Get your API token from https://www.toggl.com/app/profile
     #+END_SRC
-*** Event
+**** Event
     #+BEGIN_SRC yaml
     EVENT:
       CALENDAR_ID:                        # Get calendar id from calendar settings
@@ -108,4 +110,11 @@
        - "XXXXXXXXXXXXXXXXXXXX"
        - "XXXXXXXXXXXXXXXXXXXX"
       USER_ID: "XXXXXXXXXXXXXX@gmail.com" # Your google account id
+    #+END_SRC
+
+*** SENDERS
+**** CAMOME
+    #+BEGIN_SRC yaml
+      CAMOME:
+        URL: "XXXXXXXXXXXXXXX" # Set url of camome
     #+END_SRC

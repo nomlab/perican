@@ -5,9 +5,8 @@ require 'json'
 module Perican
   module Sender
     class Camome < Base
-      def initialize
-        # URL is unkown
-        @url = 'http://...'
+      def initialize(url)
+        @url = url
         @headers = {"Content-Type" => "application/json"}
       end
 
