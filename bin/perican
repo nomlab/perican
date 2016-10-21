@@ -29,7 +29,7 @@ builder = Perican::Builder.new(config)
 # :mail, :evernote, :slack
 collection = builder.resource_collection(ARGV[0].to_sym)
 
-builder.send_resorce(collection)
+builder.send_resorce(collection, ARGV[1].to_sym)
 
 # collection.each do |r|
 #   puts "#{r.date} #{r.summary}"

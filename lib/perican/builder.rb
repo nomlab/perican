@@ -7,19 +7,19 @@ module Perican
     def resource_collection(type)
       case type
       when :mail
-        conf = @config["MAIL"]
+        conf = @config["RESOURCES"]["MAIL"]
         resource = Perican::Resource::Mail
         retriever = Perican::Retriever::Mail.new(conf["LOGIN"],
                                                  conf["PASSWD"],
                                                  conf["SERVER"])
       when :evernote
-        conf = @config["EVERNOTE"]
+        conf = @config["RESOURCES"]["EVERNOTE"]
         resource = Perican::Resource::Evernote
         retriever = Perican::Retriever::Evernote.new(conf["CONSUMER_KEY"],
                                                      conf["CONSUMER_SECRET"],
                                                      conf["ACCESS_TOKEN"])
       when :slack
-        conf = @config["SLACK"]
+        conf = @config["RESOURCES"]["SLACK"]
         resource = Perican::Resource::Slack
         retriever = Perican::Retriever::Slack.new(conf["TEAM"],
                                                   conf["TOKEN"],
@@ -27,20 +27,20 @@ module Perican
                                                   conf["CHANNEL"],
                                                   conf["COUNT"])
       when :toggl
-        conf = @config["TOGGL"]
+        conf = @config["RESOURCES"]["TOGGL"]
         resource = Perican::Resource::Toggl
         retriever = Perican::Retriever::Toggl.new(conf["TOKEN"])
 
       when :document
-        conf = @config["DOCUMENT"]
+        conf = @config["RESOURCES"]["DOCUMENT"]
         resource = Perican::Resource::Document
         retriever = Perican::Retriever::Document.new(conf["PATH"],
                                                      conf["IGNORE"],
                                                      conf["IGNORE_HIDDEN"])
 
       when :event
-        oauth = @config["OAUTH"]["GOOGLE"]
-        conf = @config["EVENT"]
+        oauth = @config["GENERAL"]["OAUTH"]["GOOGLE"]
+        conf = @config["RESOURCES"]["EVENT"]
         resource = Perican::Resource::Event
         retriever = Perican::Retriever::Event.new(conf["USER_ID"],
                                                   conf["CALENDAR_ID"],
@@ -56,8 +56,12 @@ module Perican
       return collection
     end
 
-    def send_resorce(collection)
-      sender = Perican::Sender::Camome.new
+    def send_resorce(collection, dest)
+      case dest
+      when :camome
+        conf = @config["SENDERS"]["CAMOME"]
+        sender = Perican::Sender::Camome.new(conf["URL"])
+      end
       collection.each do |r|
         sender.post_resource(r)
       end
