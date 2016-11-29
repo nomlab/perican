@@ -2,6 +2,7 @@ require 'uri'
 require 'net/https'
 require 'json'
 require 'date'
+require 'base64'
 require 'google/apis/calendar_v3'
 
 module Perican
@@ -39,6 +40,10 @@ module Perican
         @event
       end
 
+      def to_hash
+        {:type => self.class,
+         :source => Base64.encode64(Marshal.dump(self.source))}
+      end
     end # class Event
   end # module Resource
 end # module Perican
